@@ -21,32 +21,8 @@ import javax.annotation.Resource;
 @MapperScan("com.miaoshaproject.dao")
 @RestController
 public class App {
-  /**
-   * @Autowired 会报错，但是不影响编译运行，@Resource效果与@Autowired相同
-   */
-  @Resource
-  private UserInfoEntityMapper userInfoEntityMapper;
 
   public static void main(String[] args) {
-    System.out.println("Hello World!");
     SpringApplication.run(App.class, args);
-  }
-
-  @RequestMapping("/")
-  public String home() {
-    UserInfoEntity userInfoEntity = userInfoEntityMapper.selectByPrimaryKey(1);
-    if (null == userInfoEntity) {
-      return "No UserINfo";
-    } else {
-      return userInfoEntity.toString();
-    }
-  }
-
-  public UserInfoEntityMapper getUserInfoEntityMapper() {
-    return userInfoEntityMapper;
-  }
-
-  public void setUserInfoEntityMapper(UserInfoEntityMapper userInfoEntityMapper) {
-    this.userInfoEntityMapper = userInfoEntityMapper;
   }
 }
