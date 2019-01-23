@@ -5,11 +5,15 @@ import com.miaoshaproject.dao.UserInfoEntityMapper;
 import com.miaoshaproject.dao.UserPasswordEntityMapper;
 import com.miaoshaproject.dataobject.UserInfoEntity;
 import com.miaoshaproject.dataobject.UserPasswordEntity;
+import com.miaoshaproject.error.BusinessException;
+import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.service.UserInfoService;
 import com.miaoshaproject.service.model.UserModel;
+import com.miaoshaproject.utils.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -27,6 +31,9 @@ public class UserInfoServiceImpl implements UserInfoService {
   @Autowired
   private UserPasswordEntityMapper userPasswordEntityMapper;
 
+  @Autowired
+  private ObjectUtils objectUtils;
+
   /**
    * 根据用户ID获取用户信息
    * @param id 用户Id
@@ -40,6 +47,58 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
     UserPasswordEntity userPasswordEntity = userPasswordEntityMapper.selectByUserId(userInfoEntity.getId());
     return convertFromDataObject(userInfoEntity, userPasswordEntity);
+  }
+
+  /**
+   * 用户注册
+   *
+   * @param userModel
+   * @return
+   */
+  @Override
+  @Transactional
+  public Boolean userRegister(UserModel userModel) throws BusinessException {
+    if (null == userModel) {
+      throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+    }
+    try {
+      if (!objectUtils.checkObjFieldIsNull(userModel)) {
+        throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+      }
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    // 实现model -> dataObject方法
+    UserInfoEntity userInfoEntity = convertFromModel(userModel);
+
+    userInfoEntityMapper.insertSelective(userInfoEntity);
+
+    UserPasswordEntity userPasswordEntity = convertPasswordFromModel(userModel);
+
+    userPasswordEntityMapper.insertSelective(userPasswordEntity);
+
+    return true;
+  }
+
+  private UserPasswordEntity convertPasswordFromModel(UserModel userModel) {
+    if (null == userModel) {
+      return null;
+    }
+    UserPasswordEntity userPasswordEntity = new UserPasswordEntity();
+    userPasswordEntity.setEncrptPassword(userModel.getEncrptPassword());
+    userPasswordEntity.setUserId(userModel.getId());
+    return userPasswordEntity;
+  }
+
+  private UserInfoEntity convertFromModel(UserModel userModel) {
+    if (null == userModel) {
+      return null;
+    }
+    UserInfoEntity userInfoEntity = new UserInfoEntity();
+
+    BeanUtils.copyProperties(userModel, userInfoEntity);
+
+    return userInfoEntity;
   }
 
   /**

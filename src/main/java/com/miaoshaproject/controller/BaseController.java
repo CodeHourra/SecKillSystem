@@ -18,6 +18,7 @@ import java.util.HashMap;
  * @Description Controller基类
  */
 public class BaseController {
+  public static final String CONTENT_TYPE_FORMED = "application/x-www-form-urlencoded";
   /**
    * 定义exception Handler解决未被controller吸收的exception
    * @param request 请求

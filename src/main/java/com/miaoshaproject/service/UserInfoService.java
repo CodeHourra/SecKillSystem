@@ -1,7 +1,7 @@
 package com.miaoshaproject.service;
 
+import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.service.model.UserModel;
-import org.springframework.stereotype.Service;
 
 /**
  * @author liugan83@gmail.com
@@ -16,4 +16,11 @@ public interface UserInfoService {
    * @return 用户实体
    */
   public UserModel getUserById(Integer Id);
+
+  /**
+   * 用户注册
+   * @param userModel
+   * @return
+   */
+  public Boolean userRegister(UserModel userModel) throws BusinessException;
 }
