@@ -1,5 +1,7 @@
 package com.miaoshaproject.utils;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.reflect.Field;
 
 /**
@@ -8,6 +10,7 @@ import java.lang.reflect.Field;
  * @date 2019/1/19 19:57
  * @Description 对象校验工具类
  */
+@Component
 public class ObjectUtils {
 
   public boolean checkObjFieldIsNull(Object obj) throws IllegalAccessException {

@@ -47,7 +47,6 @@ public class UserController extends BaseController {
     if (null == userInfo) {
       throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
     }
-
     // 将核心领域模型用户对象转化成UI可使用的viewObject
     UserVO userVO = convertFromModel(userInfo);
 
