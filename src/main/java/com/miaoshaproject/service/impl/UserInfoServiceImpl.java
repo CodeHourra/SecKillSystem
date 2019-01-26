@@ -12,6 +12,7 @@ import com.miaoshaproject.service.model.UserModel;
 import com.miaoshaproject.utils.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,7 +72,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     // 实现model -> dataObject方法
     UserInfoEntity userInfoEntity = convertFromModel(userModel);
 
-    userInfoEntityMapper.insertSelective(userInfoEntity);
+    try {
+      userInfoEntityMapper.insertSelective(userInfoEntity);
+    } catch (DuplicateKeyException e) {
+      e.printStackTrace();
+      throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "手机号已重复注册");
+    }
+
+    userModel.setId(userInfoEntity.getId());
 
     UserPasswordEntity userPasswordEntity = convertPasswordFromModel(userModel);
 
@@ -79,6 +87,34 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     return true;
   }
+
+  /**
+   * 用户登录
+   *
+   * @param telephone 电话
+   * @param password  密码
+   * @return
+   */
+  @Override
+  public UserModel login(String telephone, String password) throws BusinessException {
+    UserInfoEntity userInfoEntity = null;
+    UserPasswordEntity userPasswordEntity = null;
+    try {
+      userInfoEntity = userInfoEntityMapper.selectByTelephone(telephone);
+      userPasswordEntity = userPasswordEntityMapper.selectByUserId(userInfoEntity.getId());
+    } catch (Exception e) {
+      throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
+    }
+
+    if (null == userInfoEntity && null == userPasswordEntity &&
+        password.equals(userPasswordEntity.getEncrptPassword())) {
+      throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
+    }
+
+    UserModel userModel = convertFromDataObject(userInfoEntity, userPasswordEntity);
+    return userModel;
+  }
+
 
   private UserPasswordEntity convertPasswordFromModel(UserModel userModel) {
     if (null == userModel) {
@@ -97,6 +133,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     UserInfoEntity userInfoEntity = new UserInfoEntity();
 
     BeanUtils.copyProperties(userModel, userInfoEntity);
+    userInfoEntity.setRegisterModel(userModel.getRegisterMode());
+    userInfoEntity.setGender(userModel.getGender());
 
     return userInfoEntity;
   }

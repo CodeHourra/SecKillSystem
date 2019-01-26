@@ -4,6 +4,8 @@ import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.response.CommonReturnType;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,6 +21,7 @@ import java.util.HashMap;
  */
 public class BaseController {
   public static final String CONTENT_TYPE_FORMED = "application/x-www-form-urlencoded";
+  public static final String CONTENT_TYPE_JSON = "application/json";
   /**
    * 定义exception Handler解决未被controller吸收的exception
    * @param request 请求
@@ -40,6 +43,16 @@ public class BaseController {
       responseData.put("errMsg", EmBusinessError.UNKNOWN_ERROR.getErrMsg());
     }
 
+    return CommonReturnType.create(responseData, "fail");
+  }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public Object handlerException(MethodArgumentNotValidException ex) {
+    BindingResult bindingResult = ex.getBindingResult();
+    HashMap<String, Object> responseData = new HashMap<String, Object>(16);
+    responseData.put("errCode", EmBusinessError.PARAMETER_VALIDATION_ERROR.getErrCode());
+    responseData.put("errMsg", bindingResult.getFieldError().getDefaultMessage());
     return CommonReturnType.create(responseData, "fail");
   }
 }

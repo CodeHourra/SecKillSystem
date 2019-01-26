@@ -19,8 +19,18 @@ public interface UserInfoService {
 
   /**
    * 用户注册
-   * @param userModel
-   * @return
+   * @param userModel 用户信息对象
+   * @return 用户注册结果
+   * @throws BusinessException
    */
   public Boolean userRegister(UserModel userModel) throws BusinessException;
+
+  /**
+   * 用户登录
+   * @param telephone 电话
+   * @param password 密码
+   * @return
+   * @throws BusinessException
+   */
+  public UserModel login(String telephone, String password) throws BusinessException;
 }

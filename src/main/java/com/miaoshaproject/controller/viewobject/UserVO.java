@@ -1,5 +1,9 @@
 package com.miaoshaproject.controller.viewobject;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author liugan83@gmail.com
  * @version V1.0
@@ -8,10 +12,35 @@ package com.miaoshaproject.controller.viewobject;
  */
 public class UserVO {
   private Integer id;
+  @NotNull(message = "{user.name.notBlank}")
   private String name;
-  private Byte gender;
+  @NotNull(message = "{user.gender.notBlank}")
+  private String gender;
+  @Max(value = 120, message = "{user.age.max}")
+  @Min(value = 0, message = "{user.age.min}")
   private Integer age;
+  @NotNull(message = "{user.telephone.notBlank}")
   private String telphone;
+  @NotNull(message = "{user.otpCode.notBlank}")
+  private String otpCode;
+  @NotNull(message = "{user.password.notBlank}")
+  private String password;
+
+  public String getOtpCode() {
+    return otpCode;
+  }
+
+  public void setOtpCode(String otpCode) {
+    this.otpCode = otpCode;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   public Integer getId() {
     return id;
@@ -29,11 +58,11 @@ public class UserVO {
     this.name = name;
   }
 
-  public Byte getGender() {
+  public String getGender() {
     return gender;
   }
 
-  public void setGender(Byte gender) {
+  public void setGender(String gender) {
     this.gender = gender;
   }
 
