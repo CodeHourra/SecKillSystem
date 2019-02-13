@@ -61,6 +61,7 @@
             success: function(data) {
                 if (data.status == "success") {
                     alert("登录成功");
+                    window.location.href='createItem.html'
                 } else {
                     alert("登录失败, 原因是：" + data.data.errMsg);
                 }
