@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author liugan83@gmail.com
@@ -95,7 +96,13 @@ public class ItemServiceImpl implements ItemService {
    */
   @Override
   public List<ItemModel> listItem() {
-    return null;
+    List<ItemEntity> itemEntities = itemEntityMapper.listItem();
+    List<ItemModel> itemModelList = itemEntities.stream().map(itemEntity -> {
+      ItemStockEntity itemStockEntity = itemStockEntityMapper.selectByItemId(itemEntity.getId());
+      ItemModel itemModel = this.convertModelFromDataObject(itemEntity, itemStockEntity);
+      return itemModel;
+    }).collect(Collectors.toList());
+    return itemModelList;
   }
 
   /**
