@@ -36,20 +36,30 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="user_info" domainObjectName="UserInfoEntity"
+        <!--<table tableName="user_info" domainObjectName="UserInfoEntity"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"
-               selectByExampleQueryId="false"
-        ></table>
+               selectByExampleQueryId="false"></table>
         <table tableName="user_password" domainObjectName="UserPasswordEntity"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"
-               selectByExampleQueryId="false"
-        ></table>
+               selectByExampleQueryId="false"></table>-->
+        <table tableName="item" domainObjectName="ItemEntity"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="item_stock" domainObjectName="ItemStockEntity"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               selectByExampleQueryId="false"></table>
 
     </context>
 </generatorConfiguration>
