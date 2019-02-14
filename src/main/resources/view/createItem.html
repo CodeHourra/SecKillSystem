@@ -93,6 +93,7 @@
             success: function(data) {
                 if (data.status == "success") {
                     alert("创建成功");
+                    window.location.href='listItem.html'
                 } else {
                     alert("创建失败, 原因是：" + data.data.errMsg);
                 }
