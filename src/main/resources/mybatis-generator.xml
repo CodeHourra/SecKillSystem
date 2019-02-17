@@ -48,7 +48,7 @@
                enableSelectByExample="false"
                enableUpdateByExample="false"
                selectByExampleQueryId="false"></table>-->
-        <table tableName="item" domainObjectName="ItemEntity"
+        <!--<table tableName="item" domainObjectName="ItemEntity"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
@@ -59,7 +59,21 @@
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="order_info" domainObjectName="OrderInfoEntity"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
+        <table tableName="sequence_info" domainObjectName="SequenceInfoEntity"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               selectByExampleQueryId="false">
+        </table>
 
     </context>
 </generatorConfiguration>

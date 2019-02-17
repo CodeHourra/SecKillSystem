@@ -31,4 +31,20 @@ public interface ItemService {
    * @return
    */
   ItemModel getItemById(Integer id);
+
+  /**
+   * 根据商品ID获取商品库存
+   * @param id 商品id
+   * @return 商品库存
+   */
+  Integer getItemStockById(Integer id);
+
+  /**
+   * 扣减商品数量
+   * @param id 商品ID
+   * @param amount 购买数量
+   * @return 是否成功
+   * @throws BusinessException
+   */
+  Boolean decreaseStock(Integer id, Integer amount) throws BusinessException;
 }

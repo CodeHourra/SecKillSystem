@@ -57,7 +57,7 @@ public class UserInfoServiceImpl implements UserInfoService {
    * @return
    */
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional
   public Boolean userRegister(UserModel userModel) throws BusinessException {
     if (null == userModel) {
       throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);

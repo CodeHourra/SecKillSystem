@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @date 2019/2/12 21:57
  * @Description TODO
  */
-@RestController()
+@RestController("item")
 @RequestMapping(value = "/item")
 public class ItemController extends BaseController {
 

@@ -69,7 +69,7 @@ public class ItemServiceImpl implements ItemService {
    * @return
    */
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional
   public ItemModel createItem(ItemModel itemModel) throws BusinessException {
     // 校验入参
     ValidationResult result = validator.validationResult(itemModel);
@@ -122,6 +122,34 @@ public class ItemServiceImpl implements ItemService {
     // 将entity -> model
     ItemModel itemModel = convertModelFromDataObject(item, itemStockEntity);
     return itemModel;
+  }
+
+  /**
+   * 根据商品ID获取商品库存
+   *
+   * @param id 商品id
+   * @return 商品库存
+   */
+  @Override
+  public Integer getItemStockById(Integer id) {
+    // 获取库存数量
+    ItemStockEntity itemStockEntity = itemStockEntityMapper.selectByItemId(id);
+    return itemStockEntity.getStock();
+  }
+
+  /**
+   * 扣减商品数量
+   *
+   * @param id     商品ID
+   * @param amount 购买数量
+   * @return 是否成功
+   * @throws BusinessException
+   */
+  @Override
+  @Transactional
+  public Boolean decreaseStock(Integer id, Integer amount) throws BusinessException {
+    int affectedRows = itemStockEntityMapper.decreaseStock(id, amount);
+    return affectedRows > 0;
   }
 
   private ItemModel convertModelFromDataObject(ItemEntity itemEntity, ItemStockEntity itemStockEntity) {

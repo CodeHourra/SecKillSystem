@@ -26,9 +26,8 @@ import java.util.Random;
  * @date 2019/1/14 21:36
  * @Description TODO
  */
-@RestController()
+@RestController("users")
 @RequestMapping(value = "/users")
-@CrossOrigin(allowCredentials="true",allowedHeaders = "*")
 public class UserController extends BaseController {
 
   @Autowired
@@ -122,7 +121,7 @@ public class UserController extends BaseController {
     // 用户登录服务，用来判断用户登录是否合法
     UserModel login = userInfoService.login(userVO.getTelphone(), this.encodeByMd5(userVO.getPassword()));
     this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-    this.httpServletRequest.getSession().setAttribute("LOGIN_USer", login);
+    this.httpServletRequest.getSession().setAttribute("LOGIN_USER", login);
     return CommonReturnType.create(true);
   }
   /**
