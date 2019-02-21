@@ -1,6 +1,7 @@
 package com.miaoshaproject.dao;
 
 import com.miaoshaproject.dataobject.ItemEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,4 +55,6 @@ public interface ItemEntityMapper {
    * @mbg.generated Tue Feb 12 20:29:46 CST 2019
    */
   int updateByPrimaryKey(ItemEntity record);
+
+  int increaseSales(@Param("id") Integer id, @Param("amount") Integer amount);
 }

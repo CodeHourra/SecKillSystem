@@ -41,6 +41,26 @@ public class ItemVo {
    */
   private String imgUrl;
 
+  /**
+   * 秒杀状态
+   */
+  private Integer promoStatus;
+
+  /**
+   * 秒杀价格
+   */
+  private BigDecimal promoPrice;
+
+  /**
+   * 秒杀活动Id
+   */
+  private Integer promoId;
+
+  /**
+   * 秒杀开始时间
+   */
+  private String startTime;
+
   public Integer getId() {
     return id;
   }
@@ -95,5 +115,37 @@ public class ItemVo {
 
   public void setImgUrl(String imgUrl) {
     this.imgUrl = imgUrl;
+  }
+
+  public Integer getPromoStatus() {
+    return promoStatus;
+  }
+
+  public void setPromoStatus(Integer promoStatus) {
+    this.promoStatus = promoStatus;
+  }
+
+  public BigDecimal getPromoPrice() {
+    return promoPrice;
+  }
+
+  public void setPromoPrice(BigDecimal promoPrice) {
+    this.promoPrice = promoPrice;
+  }
+
+  public Integer getPromoId() {
+    return promoId;
+  }
+
+  public void setPromoId(Integer promoId) {
+    this.promoId = promoId;
+  }
+
+  public String getStartTime() {
+    return startTime;
+  }
+
+  public void setStartTime(String startTime) {
+    this.startTime = startTime;
   }
 }

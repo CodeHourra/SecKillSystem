@@ -47,4 +47,15 @@ public interface ItemService {
    * @throws BusinessException
    */
   Boolean decreaseStock(Integer id, Integer amount) throws BusinessException;
+
+  /**
+   * 商品销量增加
+   * @param id 商品ID
+   * @param amount 购买数量
+   * @return 是否成功
+   * @throws BusinessException
+   */
+  Boolean increaseStock(Integer id, Integer amount) throws BusinessException;
+
+
 }

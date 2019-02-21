@@ -44,11 +44,15 @@
         </div>
         <div class="form-actions submit">
             <button class="btn blue" id="createItem" type="submit">创建商品</button>
+            <button class="btn green" id="goListItem" type="submit">商品列表</button>
         </div>
     </div>
 </body>
 <script>
     jQuery(document).ready(function() {
+      $('#goListItem').on('click', function () {
+        window.location.href='listItem.html';
+      })
       $('#createItem').on('click', function () {
         var title = $('#title').val();
         var description = $('#description').val();

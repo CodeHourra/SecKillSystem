@@ -7,7 +7,9 @@ import com.miaoshaproject.dataobject.ItemStockEntity;
 import com.miaoshaproject.error.BusinessException;
 import com.miaoshaproject.error.EmBusinessError;
 import com.miaoshaproject.service.ItemService;
+import com.miaoshaproject.service.PromoService;
 import com.miaoshaproject.service.model.ItemModel;
+import com.miaoshaproject.service.model.PromoModel;
 import com.miaoshaproject.validator.ValidationResult;
 import com.miaoshaproject.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +38,9 @@ public class ItemServiceImpl implements ItemService {
 
   @Autowired
   private ItemStockEntityMapper itemStockEntityMapper;
+
+  @Autowired
+  private PromoService promoService;
 
   /**
    * itemModel -> dataobject
@@ -121,6 +126,11 @@ public class ItemServiceImpl implements ItemService {
     ItemStockEntity itemStockEntity = itemStockEntityMapper.selectByItemId(item.getId());
     // 将entity -> model
     ItemModel itemModel = convertModelFromDataObject(item, itemStockEntity);
+    // 获取活动商品信息
+    PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+    if (promoModel != null && promoModel.getStatus().intValue() != 3) {
+      itemModel.setPromoModel(promoModel);
+    }
     return itemModel;
   }
 
@@ -150,6 +160,20 @@ public class ItemServiceImpl implements ItemService {
   public Boolean decreaseStock(Integer id, Integer amount) throws BusinessException {
     int affectedRows = itemStockEntityMapper.decreaseStock(id, amount);
     return affectedRows > 0;
+  }
+
+  /**
+   * 商品销量增加
+   *
+   * @param id     商品ID
+   * @param amount 购买数量
+   * @return 是否成功
+   * @throws BusinessException
+   */
+  @Override
+  @Transactional
+  public Boolean increaseStock(Integer id, Integer amount) throws BusinessException {
+    return itemEntityMapper.increaseSales(id, amount) > 0;
   }
 
   private ItemModel convertModelFromDataObject(ItemEntity itemEntity, ItemStockEntity itemStockEntity) {

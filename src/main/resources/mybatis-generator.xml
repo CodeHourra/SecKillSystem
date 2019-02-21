@@ -67,7 +67,14 @@
                enableUpdateByExample="false"
                selectByExampleQueryId="false">
         </table>-->
-        <table tableName="sequence_info" domainObjectName="SequenceInfoEntity"
+        <!--<table tableName="sequence_info" domainObjectName="SequenceInfoEntity"-->
+               <!--enableCountByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
+        <table tableName="promo" domainObjectName="PromoEntity"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

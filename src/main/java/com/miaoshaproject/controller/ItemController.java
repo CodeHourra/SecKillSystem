@@ -4,6 +4,7 @@ import com.miaoshaproject.controller.viewobject.ItemVo;
 import com.miaoshaproject.response.CommonReturnType;
 import com.miaoshaproject.service.ItemService;
 import com.miaoshaproject.service.model.ItemModel;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,10 +59,7 @@ public class ItemController extends BaseController {
   public CommonReturnType getItem(@RequestParam Integer itemId) {
     // 封装service方法用来获取商品
     ItemModel item = itemService.getItemById(itemId);
-    ItemVo itemVo = new ItemVo();
-    if (item != null) {
-      BeanUtils.copyProperties(item, itemVo);
-    }
+    ItemVo itemVo = convertVOFromModel(item);
     return CommonReturnType.create(itemVo);
   }
   /**
@@ -74,13 +72,28 @@ public class ItemController extends BaseController {
     // 封装service方法用来获取商品
     List<ItemModel> itemModels = itemService.listItem();
     List<ItemVo> itemVoList = itemModels.stream().map(itemModel -> {
-      ItemVo itemVo = new ItemVo();
-      if (itemModel != null) {
-        BeanUtils.copyProperties(itemModel, itemVo);
-      }
+      ItemVo itemVo = convertVOFromModel(itemModel);
       return itemVo;
     }).collect(Collectors.toList());
 
     return CommonReturnType.create(itemVoList);
+  }
+
+  private ItemVo convertVOFromModel(ItemModel itemModel) {
+    if (itemModel == null) {
+      return null;
+    }
+    ItemVo itemVo = new ItemVo();
+    BeanUtils.copyProperties(itemModel, itemVo);
+    if (itemModel.getPromoModel() != null) {
+      // 有活动
+      itemVo.setPromoId(itemModel.getPromoModel().getId());
+      itemVo.setPromoStatus(itemModel.getPromoModel().getStatus());
+      itemVo.setPromoPrice(itemModel.getPromoModel().getPromoItemPrice());
+      itemVo.setStartTime(itemModel.getPromoModel().getStartDate().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")));
+    } else {
+      itemVo.setPromoStatus(0);
+    }
+    return itemVo;
   }
 }
